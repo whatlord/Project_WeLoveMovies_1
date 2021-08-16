@@ -1,14 +1,15 @@
 const knex = require("../db/connection")
 
 function list(showing) {
-    if(showing !== "true"){
-        return knex("movies").select("*")
-    }else{
+    if(showing === "true"){
         return knex("movies as m")
-            .select("*")
-            .distinctOn("m.movie_id")
+            .select("m.*")
             .join("movies_theaters as mt", "m.movie_id", "mt.movie_id")
-            .where({ is_showing: true })
+            .where({"mt.is_showing": true})
+            .groupBy("m.movie_id")
+    }else{
+        return knex("movies").select("*")
+            
     }
 }
 

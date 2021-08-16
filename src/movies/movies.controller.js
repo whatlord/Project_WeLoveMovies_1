@@ -24,5 +24,6 @@ function read(req, res, next){
 
 module.exports = {
     list: [AEB(list)],
-    read: [AEB(movieExists), AEB(read)]
+    read: [AEB(movieExists), AEB(read)],
+    movieExists
 }

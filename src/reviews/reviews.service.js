@@ -7,19 +7,18 @@ function read(reviewId){
         .then((matches) => matches[0])
 }
 
-function update(reviewId, updatedReview){
+function update(updatedReviewData){
     return knex("reviews")
-        .select("*")
-        .where({review_id: reviewId})
-        .update(updatedReview, "*")
-        .then((updatedRecords) => updatedRecords[0])
+        .where({review_id: updatedReviewData.review_id})
+        .update(updatedReviewData, "*")
+        .then(()=>read(updatedReviewData.review_id))
         
 }
 
-function critic(updatedReview){
+function critic(critic_id){
     return knex("critics")
         .select("*")
-        .where({critic_id: updatedReview.critic_id})
+        .where({critic_id})
         .then((records) => records[0])
 }
 
@@ -28,10 +27,15 @@ function destroy(reviewId){
         .where({review_id: reviewId})
         .del();
 }
+function list(){
+    return knex("reviews")
+        .select("*");
+}
 
 module.exports = {
     read,
     update,
     critic,
     delete: destroy,
+    list,
 }
